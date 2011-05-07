@@ -43,7 +43,6 @@ namespace Spider.Domain
         public string GroundUrl { get; set; }
         public string GroundName { get; set; }
         public bool ScorecardAvailable { get; set; }
-        public string FileName { get; set; }
         public DateTime LastChecked { get; set; }
 
 
@@ -70,5 +69,12 @@ namespace Spider.Domain
         {
             return ToString().GetHashCode();
         }
+
+
+        public string GenerateScorecardKey()
+        {
+            return string.Format("scorecards/{0}/{1}", Season, MatchCode);
+        }
+
     }
 }

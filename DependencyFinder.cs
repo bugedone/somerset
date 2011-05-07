@@ -1,7 +1,7 @@
-﻿using Raven.Client;
-using Spider.Domain;
+﻿using Spider.Domain;
 using Spider.Parser;
 using log4net;
+using Spider.Persistence;
 
 namespace Spider
 {
@@ -9,9 +9,9 @@ namespace Spider
     {
         private static readonly ILog Log = LogManager.GetLogger("Spider");
 
-        private readonly IDocumentStore _dataStore;
+        private readonly FileStore _dataStore;
 
-        public DependencyFinder(IDocumentStore dataStore)
+        public DependencyFinder(FileStore dataStore)
         {
             _dataStore = dataStore;
         }

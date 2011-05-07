@@ -2,6 +2,7 @@
 using System.Linq;
 using Raven.Client;
 using Spider.Domain;
+using Spider.Persistence;
 
 namespace Spider.Commands
 {
@@ -10,7 +11,7 @@ namespace Spider.Commands
         public string StartSeason { get; set; }
         public string EndSeason { get; set; }
 
-        public void Execute(IDocumentStore dataStore)
+        public void Execute(FileStore dataStore)
         {
             foreach (Season season in GetSeasons(dataStore, StartSeason, EndSeason))
             {
@@ -18,7 +19,7 @@ namespace Spider.Commands
             }
         }
 
-        private static void RecheckSeason(IDocumentStore dataStore, Season season)
+        private static void RecheckSeason(FileStore dataStore, Season season)
         {
             CrawlResults existing = GetCrawlResultsForSeason(dataStore, season);
             if (existing == null)

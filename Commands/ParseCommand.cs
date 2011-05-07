@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Raven.Client;
 using Spider.Domain;
-using System.IO;
 using Spider.Parser;
+using Spider.Persistence;
 
 namespace Spider.Commands
 {
@@ -14,7 +13,7 @@ namespace Spider.Commands
         public string EndSeason { get; set; }
 
 
-        public void Execute(IDocumentStore dataStore)
+        public void Execute(FileStore dataStore)
         {
             foreach (Season season in GetSeasons(dataStore, StartSeason, EndSeason))
             {
@@ -22,22 +21,7 @@ namespace Spider.Commands
             }
         }
 
-        private static string LoadScorecardFromFile(ScorecardDetails details)
-        {
-            if (!File.Exists(details.FileName))
-            {
-                Log.WarnFormat("Cannot parse match {0}, file {1} not found.", details, details.FileName);
-                return null;
-            }
-
-            using (TextReader reader = File.OpenText(details.FileName))
-            {
-                return reader.ReadToEnd();
-            }
-        }
-
-
-        private static void ParseScorecards(IDocumentStore dataStore, Season season)
+        private static void ParseScorecards(FileStore dataStore, Season season)
         {
             CrawlResults crawlResults = GetCrawlResultsForSeason(dataStore, season);
             if (crawlResults == null)
@@ -58,28 +42,18 @@ namespace Spider.Commands
             Log.InfoFormat("Scorecard parsing finished at {0} for season {1}", DateTime.Now.ToShortTimeString(), season.Name);
         }
 
-        private static void ParseScorecard(IDocumentStore dataStore, ScorecardDetails md)
+        private static void ParseScorecard(FileStore dataStore, ScorecardDetails md)
         {
-            if (string.IsNullOrEmpty(md.FileName))
+            CricketMatch m = dataStore.Load<CricketMatch>(CricketMatch.GenerateId(md.MatchCode));
+            if (m != null)
             {
-                Log.InfoFormat("Scorecard for {0} has not been downloaded yet.", md.MatchCode);
+                Log.InfoFormat("Match {0} ({1}) has already been imported", md.MatchCode, m);
                 return;
-            }
-
-
-            using (IDocumentSession session = dataStore.OpenSession())
-            {
-                CricketMatch m = session.Load<CricketMatch>(CricketMatch.GenerateId(md.MatchCode));
-                if (m != null)
-                {
-                    Log.InfoFormat("Match {0} ({1}) has already been imported", md.MatchCode, m);
-                    return;
-                }
             }
 
             Log.InfoFormat("Parsing scorecard for {0}", md);
 
-            string scorecard = LoadScorecardFromFile(md);
+            string scorecard = dataStore.LoadText(md.GenerateScorecardKey(), "html");
             if (string.IsNullOrEmpty(scorecard))
                 return;
 
@@ -89,11 +63,7 @@ namespace Spider.Commands
 
             CricketMatch match = parser.Match;
 
-            using (IDocumentSession session = dataStore.OpenSession())
-            {
-                session.Store(match);
-                session.SaveChanges();
-            }
+            dataStore.Save(match, match.Id);
 
             Log.Info(match.ToLongString());
         }

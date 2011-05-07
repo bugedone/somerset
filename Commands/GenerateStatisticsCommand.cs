@@ -1,6 +1,5 @@
-﻿using Raven.Client;
-using Spider.Domain;
-using NHibernate.Criterion;
+﻿using Spider.Domain;
+using Spider.Persistence;
 
 namespace Spider.Commands
 {
@@ -9,7 +8,7 @@ namespace Spider.Commands
         public string StartSeason { get; set; }
         public string EndSeason { get; set; }
 
-        public void Execute(IDocumentStore dataStore)
+        public void Execute(FileStore dataStore)
         {
             foreach (Season season in GetSeasons(dataStore, StartSeason, EndSeason))
             {

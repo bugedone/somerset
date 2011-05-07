@@ -53,22 +53,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.ActiveRecord, Version=2.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libraries\Castle ActiveRecord\Castle.ActiveRecord.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Components.Validator, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libraries\Castle ActiveRecord\Castle.Components.Validator.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Core, Version=1.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libraries\Castle ActiveRecord\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.DynamicProxy2, Version=2.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libraries\Castle ActiveRecord\Castle.DynamicProxy2.dll</HintPath>
-    </Reference>
     <Reference Include="HtmlAgilityPack">
       <HintPath>..\..\Libraries\Hmtl Agility Pack\HtmlAgilityPack.dll</HintPath>
     </Reference>
@@ -80,16 +64,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Program Files\log4net\log4net-1.2.10\bin\net\2.0\release\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\Libraries\RavenDB\Client\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="NHibernate, Version=2.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=4.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libraries\Castle ActiveRecord\NHibernate.dll</HintPath>
-    </Reference>
-    <Reference Include="NHibernate.ByteCode.Castle, Version=2.1.2.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libraries\Castle ActiveRecord\NHibernate.ByteCode.Castle.dll</HintPath>
+      <HintPath>..\..\Libraries\JSON.NET\Net\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PowerCollections">
       <HintPath>..\..\Libraries\PowerCollections\Binaries\PowerCollections.dll</HintPath>
@@ -180,6 +157,7 @@
     <Compile Include="Parser\MatchInfoParser.cs" />
     <Compile Include="Parser\PlayerPageParser.cs" />
     <Compile Include="Parser\SeasonsPageParser.cs" />
+    <Compile Include="Persistence\FileStore.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Parser\ScorecardParser.cs" />

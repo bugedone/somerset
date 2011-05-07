@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Castle.ActiveRecord;
-using Raven.Client;
+﻿using Spider.Persistence;
 
 namespace Spider.Domain
 {
@@ -28,21 +23,14 @@ namespace Spider.Domain
         }
 
 
-        public static Ground Load(IDocumentStore store, string id)
+        public static Ground Load(FileStore store, string id)
         {
-            using (IDocumentSession session = store.OpenSession())
-            {
-                return session.Load<Ground>(id);
-            }
+            return store.Load<Ground>(id);
         }
 
-        public static void Save(IDocumentStore store, Ground ground)
+        public static void Save(FileStore store, Ground ground)
         {
-            using (IDocumentSession session = store.OpenSession())
-            {
-                session.Store(ground);
-                session.SaveChanges();
-            }
+            store.Save(ground, ground.Id);
         }
     }
 }

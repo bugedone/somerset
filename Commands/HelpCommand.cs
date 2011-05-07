@@ -1,11 +1,11 @@
 ﻿using System;
-using Raven.Client;
+using Spider.Persistence;
 
 namespace Spider.Commands
 {
     class HelpCommand : ICommand
     {
-        public void Execute(IDocumentStore dataStore)
+        public void Execute(FileStore dataStore)
         {
             PrintHelp();
         }

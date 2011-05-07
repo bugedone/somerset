@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Raven.Client;
 using Spider.Domain;
-using System.IO;
+using Spider.Persistence;
 
 namespace Spider.Commands
 {
@@ -13,7 +12,7 @@ namespace Spider.Commands
         public string StartSeason { get; set; }
         public string EndSeason { get; set; }
 
-        public void Execute(IDocumentStore dataStore)
+        public void Execute(FileStore dataStore)
         {
             foreach (Season season in GetSeasons(dataStore, StartSeason, EndSeason))
             {
@@ -21,7 +20,7 @@ namespace Spider.Commands
             }
         }
 
-        private static void DownloadScorecards(IDocumentStore dataStore, Season season)
+        private static void DownloadScorecards(FileStore dataStore, Season season)
         {
             CrawlResults crawlResults = GetCrawlResultsForSeason(dataStore, season);
             if (crawlResults == null)
@@ -38,11 +37,11 @@ namespace Spider.Commands
 
             foreach (ScorecardDetails md in matchRecords)
             {
-                if (string.IsNullOrEmpty(md.FileName) && md.ScorecardAvailable && !string.IsNullOrEmpty(md.ScorecardUrl))
+                if (md.ScorecardAvailable && !string.IsNullOrEmpty(md.ScorecardUrl))
                 {
                     Log.InfoFormat("Downloading scorecard for {0}", md);
 
-                    tasks.Enqueue(DownloadScorecardAsync(md));
+                    tasks.Enqueue(DownloadScorecardAsync(md, dataStore));
                 }
             }
 
@@ -53,15 +52,15 @@ namespace Spider.Commands
             Log.InfoFormat("Scorecard download finished at {0} for season {1}", DateTime.Now.ToShortTimeString(), crawlResults.Season);
         }
 
-        private static Task DownloadScorecardAsync(ScorecardDetails details)
+        private static Task DownloadScorecardAsync(ScorecardDetails details, FileStore dataStore)
         {
             Log.InfoFormat("Fetching URL {0}", details.ScorecardUrl);
             return Task.Factory.StartNew(() => WebClient.FetchWebPageContent(details.ScorecardUrl))
-                               .ContinueWith(t => SaveScorecard(details, t));
+                               .ContinueWith(t => SaveScorecard(details, t, dataStore));
         }
 
 
-        private static void SaveScorecard(ScorecardDetails details, Task<string> task)
+        private static void SaveScorecard(ScorecardDetails details, Task<string> task, FileStore dataStore)
         {
             if (task.Exception != null)
             {
@@ -76,35 +75,8 @@ namespace Spider.Commands
                 Log.WarnFormat("Nothing returned from http://www.cricketarchive.com{0}", details.ScorecardUrl);
                 return;
             }
-            
-            string fileName = GenerateFileName(details);
 
-            Log.InfoFormat("Saving file {0}", fileName);
-
-            TextWriter writer = new StreamWriter(File.OpenWrite(fileName));
-            writer.Write(scorecard);
-            writer.Close();
-
-            details.FileName = fileName;
+            dataStore.StoreText(scorecard, details.GenerateScorecardKey(), "html");
         }
-
-        private static string GenerateFileName(ScorecardDetails details)
-        {
-            string path = GeneratePath(details);
-            return Path.Combine(path, details.MatchCode + ".html");
-        }
-
-        private static string GeneratePath(ScorecardDetails details)
-        {
-            const string root = @"Cricket\Scorecards\";
-
-            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), root, GenerateSeasonFolder(details));
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-            return path;
-        }
-
     }
 }

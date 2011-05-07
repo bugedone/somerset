@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Raven.Client;
+using Spider.Persistence;
 
 namespace Spider.Domain
 {
@@ -47,21 +47,14 @@ namespace Spider.Domain
             return "player/" + id;
         }
 
-        public static PlayerDetails Load(IDocumentStore store, string id)
+        public static PlayerDetails Load(FileStore store, string id)
         {
-            using (IDocumentSession session = store.OpenSession())
-            {
-                return session.Load<PlayerDetails>(id);
-            }
+            return store.Load<PlayerDetails>(id);
         }
 
-        public static void Save(IDocumentStore store, PlayerDetails player)
+        public static void Save(FileStore store, PlayerDetails player)
         {
-            using (IDocumentSession session = store.OpenSession())
-            {
-                session.Store(player);
-                session.SaveChanges();
-            }
+            store.Save(player, player.Id);
         }
     }
 }

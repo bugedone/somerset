@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Raven.Client;
+using Spider.Persistence;
 using Wintellect.PowerCollections;
 using Spider.Domain;
 
@@ -13,7 +14,7 @@ namespace Spider.Commands
         public string StartSeason { get; set; }
         public string EndSeason { get; set; }
 
-        public void Execute(IDocumentStore dataStore)
+        public void Execute(FileStore dataStore)
         {
             foreach (Season season in GetSeasons(dataStore, StartSeason, EndSeason))
             {

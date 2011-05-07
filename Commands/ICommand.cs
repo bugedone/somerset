@@ -1,9 +1,9 @@
-﻿using Raven.Client;
+﻿using Spider.Persistence;
 
 namespace Spider.Commands
 {
     interface ICommand
     {
-        void Execute(IDocumentStore dataStore);
+        void Execute(FileStore dataStore);
     }
 }

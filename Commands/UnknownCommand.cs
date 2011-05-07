@@ -1,5 +1,5 @@
 ﻿using System;
-using Raven.Client;
+using Spider.Persistence;
 
 namespace Spider.Commands
 {
@@ -7,7 +7,7 @@ namespace Spider.Commands
     {
         public string Message { get; set; }
 
-        public void Execute(IDocumentStore dataStore)
+        public void Execute(FileStore dataStore)
         {
             Console.WriteLine("Error: '{0}'", Message);
         }
