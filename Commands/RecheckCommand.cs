@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using Raven.Client;
 using Spider.Domain;
 using Spider.Persistence;
 

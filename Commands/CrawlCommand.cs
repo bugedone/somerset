@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Raven.Client;
 using Spider.Persistence;
-using Wintellect.PowerCollections;
 using Spider.Domain;
 
 namespace Spider.Commands

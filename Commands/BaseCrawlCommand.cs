@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using log4net;
-using Raven.Client;
 using Spider.Domain;
 using System.Text.RegularExpressions;
-using System.IO;
 
 namespace Spider.Commands
 {

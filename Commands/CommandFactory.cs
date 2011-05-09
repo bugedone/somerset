@@ -16,31 +16,35 @@ namespace Spider.Commands
                 return new ErrorCommand { Message = "No command provided."};
 
             string function = parts[0];
-            string startSeason = (parts.Length < 2 ? DateTime.Now.Year.ToString() : parts[1]);
+            string startSeason;
 
             switch (function)
             {
                 case "help":
                     return new HelpCommand();
                 case "crawl":
+                    startSeason = (parts.Length < 2 ? DateTime.Now.Year.ToString() : parts[1]);
                     return new CrawlCommand
                                 {
                                     StartSeason = startSeason,
                                     EndSeason = (parts.Length < 3 ? startSeason : parts[2])
                                 };
                 case "recheck":
+                    startSeason = (parts.Length < 2 ? DateTime.Now.Year.ToString() : parts[1]);
                     return new RecheckCommand
                                 {
                                     StartSeason = startSeason,
                                     EndSeason = (parts.Length < 3 ? startSeason : parts[2])
                                 };
                 case "download":
+                    startSeason = (parts.Length < 2 ? DateTime.Now.Year.ToString() : parts[1]);
                     return new DownloadCommand
                                 {
                                     StartSeason = startSeason,
                                     EndSeason = (parts.Length < 3 ? startSeason : parts[2])
                                 };
                 case "parse":
+                    startSeason = (parts.Length < 2 ? DateTime.Now.Year.ToString() : parts[1]);
                     return new ParseCommand
                     {
                         StartSeason = startSeason,
@@ -52,11 +56,15 @@ namespace Spider.Commands
 
                     return new ParseMatchCommand { MatchCode = parts[1] };
                 case "generate":
+                    if (parts.Length < 2)
+                        return new ErrorCommand {Message = "No statistic provided"};
+                    startSeason = (parts.Length < 3 ? DateTime.Now.Year.ToString() : parts[2]);
                     return new GenerateStatisticsCommand
-                                {
-                                    StartSeason = startSeason,
-                                    EndSeason = (parts.Length < 3 ? startSeason : parts[2])
-                                };
+                               {
+                                   Statistic = parts[1],
+                                   StartSeason = startSeason,
+                                   EndSeason = (parts.Length < 4 ? startSeason : parts[3])
+                               };
                 case "seasons":
                     return new GetSeasonsCommand();
                 default:

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using log4net.Config;
-using Raven.Client.Document;
 using Spider.Commands;
 using Spider.Persistence;
 
@@ -13,10 +12,7 @@ namespace Spider
         {
 
             XmlConfigurator.Configure();
-            //ActiveRecordStarter.Initialize(Assembly.GetExecutingAssembly(), ActiveRecordSectionHandler.Instance);
 
-            //var store = new DocumentStore { Url = "http://localhost:8080" };
-            //store.Initialize();
             string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), @"Cricket\");
             var store = new FileStore(path);
 

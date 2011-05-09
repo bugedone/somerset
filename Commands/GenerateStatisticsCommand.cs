@@ -7,13 +7,15 @@ namespace Spider.Commands
     {
         public string StartSeason { get; set; }
         public string EndSeason { get; set; }
+        public string Statistic { get; set; }
+
 
         public void Execute(FileStore dataStore)
         {
             foreach (Season season in GetSeasons(dataStore, StartSeason, EndSeason))
             {
                 // TODO: Reg stats
-                Log.InfoFormat("Regenerating stats for season {0}", season.Name);
+                Log.InfoFormat("Regenerating stat {0} for season {1}", Statistic, season.Name);
                 GenerateStatsForSeason(season.Name);
             }
         }
