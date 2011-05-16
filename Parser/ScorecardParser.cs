@@ -18,7 +18,7 @@ namespace Spider.Parser
             _finder = finder;
             _match = new CricketMatch
                          {
-                             Id = CricketMatch.GenerateId(details.MatchCode),
+                             Id = CricketMatch.GenerateId(details.Season, details.MatchCode),
                              MatchCode = details.MatchCode,
                              HomeTeam = details.HomeTeam,
                              AwayTeam = details.AwayTeam,

@@ -44,7 +44,7 @@ namespace Spider.Commands
 
         private static void ParseScorecard(FileStore dataStore, ScorecardDetails md)
         {
-            CricketMatch m = dataStore.Load<CricketMatch>(CricketMatch.GenerateId(md.MatchCode));
+            CricketMatch m = dataStore.Load<CricketMatch>(CricketMatch.GenerateId(md.Season, md.MatchCode));
             if (m != null)
             {
                 Log.InfoFormat("Match {0} ({1}) has already been imported", md.MatchCode, m);

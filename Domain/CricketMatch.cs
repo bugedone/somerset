@@ -74,9 +74,9 @@ namespace Spider.Domain
         }
 
 
-        public static string GenerateId(string matchCode)
+        public static string GenerateId(string season, string matchCode)
         {
-            return "match/" + matchCode;
+            return string.Format("match/{0}/{1}", season, matchCode);
         }
     }
 }

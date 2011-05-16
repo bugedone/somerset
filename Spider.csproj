@@ -110,6 +110,8 @@
     <Compile Include="Domain\PlayerDetails.cs" />
     <Compile Include="Domain\ScorecardDetails.cs" />
     <Compile Include="Domain\Season.cs" />
+    <Compile Include="MapFunctions\IMapFunction.cs" />
+    <Compile Include="MapFunctions\IndividualBattingMap.cs" />
     <Compile Include="Parser\GroundPageParser.cs" />
     <Compile Include="Parser\HowOut\Absent.cs" />
     <Compile Include="Parser\HowOut\AbsentHurt.cs" />
@@ -180,9 +182,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="StatisticsGenerators\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
