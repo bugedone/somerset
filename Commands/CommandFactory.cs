@@ -55,16 +55,20 @@ namespace Spider.Commands
                         return new ErrorCommand { Message = "No match code provided" };
 
                     return new ParseMatchCommand { MatchCode = parts[1] };
-                case "generate":
-                    if (parts.Length < 2)
-                        return new ErrorCommand {Message = "No statistic provided"};
-                    startSeason = (parts.Length < 3 ? DateTime.Now.Year.ToString() : parts[2]);
-                    return new GenerateStatisticsCommand
-                               {
-                                   Statistic = parts[1],
-                                   StartSeason = startSeason,
-                                   EndSeason = (parts.Length < 4 ? startSeason : parts[3])
-                               };
+                case "map":
+                    startSeason = (parts.Length < 2 ? DateTime.Now.Year.ToString() : parts[1]);
+                    return new RunMapCommand
+                    {
+                        StartSeason = startSeason,
+                        EndSeason = (parts.Length < 3 ? startSeason : parts[2])
+                    };
+                case "reduce":
+                    startSeason = (parts.Length < 2 ? DateTime.Now.Year.ToString() : parts[1]);
+                    return new ReduceCommand
+                    {
+                        StartSeason = startSeason,
+                        EndSeason = (parts.Length < 3 ? startSeason : parts[2])
+                    };
                 case "seasons":
                     return new GetSeasonsCommand();
                 default:
